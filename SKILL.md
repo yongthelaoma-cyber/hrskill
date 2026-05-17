@@ -1,10 +1,10 @@
 ---
 name: cn-recruiting-workflow
 description: 面向中国招聘 HR 的微工作流：支持 JD 与简历匹配、面试反馈归一化、Offer 审批包草拟、候选人沟通稿生成与 tracker 回写。 / Micro-workflows for recruiting HR teams in China: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
-version: 0.2.2
+version: 0.2.3
 metadata:
   openclaw:
-    homepage: https://github.com/yongthelaoma-cyber/hrskill
+    homepage: https://github.com/Ashley-AIHR/hrskill
     envVars:
       - name: ATS_EXPORT_PATH
         required: false
