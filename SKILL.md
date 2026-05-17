@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
 description: Micro-workflows for mainland China recruiting HR: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
-version: 0.1.0
+version: 0.2.0
 metadata:
   openclaw:
     homepage: https://github.com/yongthelaoma-cyber/hrskill
@@ -15,7 +15,25 @@ metadata:
 
 Use this skill when the user is doing recruiting operations for mainland China and needs actionable workflow output instead of a generic HR explainer.
 
-This skill is optimized for 5 recruiting actions:
+This skill is optimized for 5 recruiting actions, but the current production-ready scenario is:
+
+`summarize_interview_feedback for internet-company recruiting in mainland China`
+
+That scenario covers the most common real-world HR pain point:
+
+1. a recruiter or HRBP receives messy interviewer notes from Feishu, WeCom, email, or forms
+2. the hiring manager wants a short hiring recommendation fast
+3. HR needs a candidate-facing follow-up message
+4. HR needs a tracker update that can be pasted into ATS or a spreadsheet
+5. HR often still needs a downloadable debrief memo for internal circulation
+
+This skill includes bundled files for that scenario:
+
+1. [references/real-user-scenario.md](references/real-user-scenario.md)
+2. [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json)
+3. [scripts/generate_interview_packet.js](scripts/generate_interview_packet.js)
+
+The supported actions are:
 
 1. `score_candidate`
 2. `summarize_interview_feedback`
@@ -78,6 +96,8 @@ record_summary
 
 Use when the input includes multiple interviewer comments, messy notes, chat transcripts, or form snippets.
 
+This is the most complete workflow in the current version. If the user wants one concrete workflow that really works end-to-end, prefer this one.
+
 Normalize feedback into:
 
 ```text
@@ -108,6 +128,20 @@ follow_up_questions
 candidate_reply_draft
 record_summary
 ```
+
+If the user wants downloadable artifacts, also generate:
+
+1. an internal interview debrief memo in DOCX
+2. a candidate communication draft in DOCX or plain text
+3. a tracker update row in CSV
+
+If working locally in this skill repo, use:
+
+```text
+node scripts/generate_interview_packet.js <input.json> <output-dir>
+```
+
+See the sample payload in [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json).
 
 ### 3. `create_offer_approval_pack`
 
@@ -195,4 +229,4 @@ Keep outputs aligned with common mainland China recruiting practice:
 4. Internal approval flows usually require concise business value, budget fit, and risk notes before an offer can move forward.
 
 For common field shapes and examples, see [references/recruiting-fields.md](references/recruiting-fields.md).
-
+For the detailed production-ready workflow, see [references/real-user-scenario.md](references/real-user-scenario.md).
