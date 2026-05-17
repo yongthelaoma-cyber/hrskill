@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
-description: 面向中国招聘 HR 的微工作流：支持 JD 与简历匹配、面试反馈归一化、Offer 审批包草拟、候选人沟通稿生成与 tracker 回写。 / Micro-workflows for recruiting HR teams in China: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
-version: 0.2.3
+description: 帮招聘 HR 快速汇总面试反馈、生成候选人推进话术、整理 Offer 材料并回写跟进记录。 / Help recruiting teams debrief interviews, draft candidate follow-ups, prepare offer materials, and update trackers.
+version: 0.2.4
 metadata:
   openclaw:
     homepage: https://github.com/Ashley-AIHR/hrskill
@@ -11,15 +11,15 @@ metadata:
         description: Optional local export path for tracker rows or CSV write-back.
 ---
 
-# 中国招聘工作流 Skill / CN Recruiting Workflow Skill
+# 招聘推进助手 / Recruiting Follow-up Copilot
 
-在用户处理中国招聘执行工作、并需要“可执行输出”而不是泛泛 HR 解释时使用这个 skill。 / Use this skill when the user is doing recruiting operations in China and needs actionable workflow output instead of a generic HR explainer.
+当用户在处理招聘推进、面试反馈汇总、候选人沟通或 Offer 前置材料时使用这个 skill。它更像一个会帮 HR 往前推流程的小助手，而不是一个只会解释概念的 HR 机器人。 / Use this skill when the user needs help moving recruiting work forward: interview debriefs, candidate follow-ups, and offer prep.
 
 这个 skill 设计了 5 个招聘动作，但当前最完整、最适合真实上线使用的场景是： / This skill is optimized for 5 recruiting actions, but the current production-ready scenario is:
 
-`summarize_interview_feedback for internet-company recruiting in China`
+`互联网招聘里的面试反馈汇总与推进`
 
-这个场景覆盖了互联网招聘里最常见的一类 HR 痛点： / That scenario covers the most common real-world HR pain point:
+这个场景覆盖了互联网招聘里最常见的一类 HR 痛点： / That scenario covers a very common recruiting pain point:
 
 1. a recruiter or HRBP receives messy interviewer notes from Feishu, WeCom, email, or forms
 2. the hiring manager wants a short hiring recommendation fast
