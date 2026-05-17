@@ -1,6 +1,6 @@
 # Recruiting Fields Reference
 
-Use this reference when the user needs stronger normalization for mainland China recruiting documents and workflow records.
+Use this reference when the user needs stronger normalization for recruiting documents and workflow records used in China.
 
 ## JD fields
 
@@ -94,4 +94,3 @@ owner
 next_action
 last_update_summary
 ```
-

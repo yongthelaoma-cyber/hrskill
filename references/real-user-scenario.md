@@ -6,7 +6,7 @@ Use this skill first for:
 
 `互联网公司社招场景下，HR 汇总多位面试官反馈并产出推进材料`
 
-This is a realistic mainland China recruiting workflow because:
+This is a realistic recruiting workflow in China because:
 
 1. feedback is often fragmented across Feishu, WeCom, forms, and verbal notes
 2. the hiring manager needs a quick go or no-go recommendation
@@ -52,4 +52,3 @@ When summarizing feedback for this scenario:
 3. do not overstate certainty when feedback is thin
 4. keep the candidate message aligned with the actual next action
 5. keep the memo concise enough to circulate internally
-

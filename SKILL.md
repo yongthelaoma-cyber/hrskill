@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
-description: 面向中国大陆招聘 HR 的微工作流：支持 JD 与简历匹配、面试反馈归一化、Offer 审批包草拟、候选人沟通稿生成与 tracker 回写。 / Micro-workflows for mainland China recruiting HR: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
-version: 0.2.1
+description: 面向中国招聘 HR 的微工作流：支持 JD 与简历匹配、面试反馈归一化、Offer 审批包草拟、候选人沟通稿生成与 tracker 回写。 / Micro-workflows for recruiting HR teams in China: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
+version: 0.2.2
 metadata:
   openclaw:
     homepage: https://github.com/yongthelaoma-cyber/hrskill
@@ -11,13 +11,13 @@ metadata:
         description: Optional local export path for tracker rows or CSV write-back.
 ---
 
-# 中国大陆招聘工作流 Skill / CN Recruiting Workflow Skill
+# 中国招聘工作流 Skill / CN Recruiting Workflow Skill
 
-在用户处理中国大陆招聘执行工作、并需要“可执行输出”而不是泛泛 HR 解释时使用这个 skill。 / Use this skill when the user is doing recruiting operations for mainland China and needs actionable workflow output instead of a generic HR explainer.
+在用户处理中国招聘执行工作、并需要“可执行输出”而不是泛泛 HR 解释时使用这个 skill。 / Use this skill when the user is doing recruiting operations in China and needs actionable workflow output instead of a generic HR explainer.
 
 这个 skill 设计了 5 个招聘动作，但当前最完整、最适合真实上线使用的场景是： / This skill is optimized for 5 recruiting actions, but the current production-ready scenario is:
 
-`summarize_interview_feedback for internet-company recruiting in mainland China`
+`summarize_interview_feedback for internet-company recruiting in China`
 
 这个场景覆盖了互联网招聘里最常见的一类 HR 痛点： / That scenario covers the most common real-world HR pain point:
 
@@ -221,7 +221,7 @@ last_update_summary
 
 ## Mainland China context
 
-Keep outputs aligned with common mainland China recruiting practice:
+Keep outputs aligned with common recruiting practice in China:
 
 1. JDs often include hard requirements, preferred requirements, reporting line, city, and salary range.
 2. Resumes often omit salary expectation, notice period, or true interview motivation.
