@@ -1,0 +1,4 @@
+interface:
+  display_name: "中国大陆招聘工作流 / CN Recruiting Workflow"
+  short_description: "中文优先招聘工作流 / Chinese-first recruiting workflow"
+  default_prompt: "使用 $cn-recruiting-workflow 处理中国大陆招聘场景，先用简体中文输出，再附英文说明，并优先生成可执行结论与可下载文档。"

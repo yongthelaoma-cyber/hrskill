@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
-description: Micro-workflows for mainland China recruiting HR: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
-version: 0.2.0
+description: 面向中国大陆招聘 HR 的微工作流：支持 JD 与简历匹配、面试反馈归一化、Offer 审批包草拟、候选人沟通稿生成与 tracker 回写。 / Micro-workflows for mainland China recruiting HR: score resumes against JD requirements, normalize interview feedback, draft offer approval packs, generate candidate messages, and produce tracker-ready record updates.
+version: 0.2.1
 metadata:
   openclaw:
     homepage: https://github.com/yongthelaoma-cyber/hrskill
@@ -11,15 +11,15 @@ metadata:
         description: Optional local export path for tracker rows or CSV write-back.
 ---
 
-# CN Recruiting Workflow Skill
+# 中国大陆招聘工作流 Skill / CN Recruiting Workflow Skill
 
-Use this skill when the user is doing recruiting operations for mainland China and needs actionable workflow output instead of a generic HR explainer.
+在用户处理中国大陆招聘执行工作、并需要“可执行输出”而不是泛泛 HR 解释时使用这个 skill。 / Use this skill when the user is doing recruiting operations for mainland China and needs actionable workflow output instead of a generic HR explainer.
 
-This skill is optimized for 5 recruiting actions, but the current production-ready scenario is:
+这个 skill 设计了 5 个招聘动作，但当前最完整、最适合真实上线使用的场景是： / This skill is optimized for 5 recruiting actions, but the current production-ready scenario is:
 
 `summarize_interview_feedback for internet-company recruiting in mainland China`
 
-That scenario covers the most common real-world HR pain point:
+这个场景覆盖了互联网招聘里最常见的一类 HR 痛点： / That scenario covers the most common real-world HR pain point:
 
 1. a recruiter or HRBP receives messy interviewer notes from Feishu, WeCom, email, or forms
 2. the hiring manager wants a short hiring recommendation fast
@@ -27,13 +27,13 @@ That scenario covers the most common real-world HR pain point:
 4. HR needs a tracker update that can be pasted into ATS or a spreadsheet
 5. HR often still needs a downloadable debrief memo for internal circulation
 
-This skill includes bundled files for that scenario:
+这个场景已经附带了可直接使用的文件： / This skill includes bundled files for that scenario:
 
 1. [references/real-user-scenario.md](references/real-user-scenario.md)
 2. [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json)
 3. [scripts/generate_interview_packet.js](scripts/generate_interview_packet.js)
 
-The supported actions are:
+支持的动作有： / The supported actions are:
 
 1. `score_candidate`
 2. `summarize_interview_feedback`
@@ -41,9 +41,9 @@ The supported actions are:
 4. `generate_candidate_message`
 5. `update_candidate_tracker`
 
-## Outcome standard
+## 输出标准 / Outcome Standard
 
-When handling any recruiting workflow, always produce these sections:
+处理任意招聘工作流时，始终产出以下结构： / When handling any recruiting workflow, always produce these sections:
 
 ```text
 normalized_data
@@ -55,7 +55,7 @@ record_update
 compliance_warning_if_any
 ```
 
-Rules:
+规则： / Rules:
 
 1. `normalized_data` must be structured and easy to map into ATS, Feishu Bitable, DingTalk approval forms, Notion, Google Sheets, or CSV.
 2. `decision_summary` must make a decision or recommendation, not just restate the inputs.
@@ -65,19 +65,19 @@ Rules:
 6. `record_update` should be concise enough to write back into one row or one timeline entry.
 7. `compliance_warning_if_any` should only appear when there is a concrete legal or privacy concern.
 
-## Workflow routing
+## 工作流路由 / Workflow Routing
 
 ### 1. `score_candidate`
 
-Use when the input includes a JD and a resume or candidate profile.
+当输入包含 JD 和简历或候选人资料时使用。 / Use when the input includes a JD and a resume or candidate profile.
 
-Expected input shapes:
+常见输入形态： / Expected input shapes:
 
 1. JD in Markdown, DOCX export, PDF text, or pasted text
 2. Resume in PDF text, DOCX export, pasted text, or profile notes
 3. Optional hiring preference such as `conservative`, `aggressive`, `fast-hiring`, or `high-bar`
 
-Always extract at least:
+至少抽取以下字段： / Always extract at least:
 
 ```text
 candidate_name
@@ -94,11 +94,11 @@ record_summary
 
 ### 2. `summarize_interview_feedback`
 
-Use when the input includes multiple interviewer comments, messy notes, chat transcripts, or form snippets.
+当输入包含多位面试官意见、零散备注、聊天记录或表单片段时使用。 / Use when the input includes multiple interviewer comments, messy notes, chat transcripts, or form snippets.
 
-This is the most complete workflow in the current version. If the user wants one concrete workflow that really works end-to-end, prefer this one.
+这是当前版本里最完整的工作流。如果用户只要一个真正能从输入跑到产出的场景，优先使用它。 / This is the most complete workflow in the current version. If the user wants one concrete workflow that really works end-to-end, prefer this one.
 
-Normalize feedback into:
+将反馈归一化为： / Normalize feedback into:
 
 ```text
 interviewer_name
@@ -115,7 +115,7 @@ follow_up_questions
 confidence_level
 ```
 
-Then produce:
+然后产出： / Then produce:
 
 ```text
 candidate_summary
@@ -129,25 +129,25 @@ candidate_reply_draft
 record_summary
 ```
 
-If the user wants downloadable artifacts, also generate:
+如果用户需要可下载文件，还要生成： / If the user wants downloadable artifacts, also generate:
 
 1. an internal interview debrief memo in DOCX
 2. a candidate communication draft in DOCX or plain text
 3. a tracker update row in CSV
 
-If working locally in this skill repo, use:
+如果在这个 skill 仓库本地运行，使用： / If working locally in this skill repo, use:
 
 ```text
 node scripts/generate_interview_packet.js <input.json> <output-dir>
 ```
 
-See the sample payload in [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json).
+示例输入见 [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json)。 / See the sample payload in [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json).
 
 ### 3. `create_offer_approval_pack`
 
-Use when HR has enough candidate context to prepare an internal approval pack before sending an offer.
+当 HR 已经掌握足够候选人信息、准备发 Offer 前的内部审批材料时使用。 / Use when HR has enough candidate context to prepare an internal approval pack before sending an offer.
 
-Check for missing or risky fields such as:
+重点检查以下缺失或风险字段： / Check for missing or risky fields such as:
 
 1. target role or grade
 2. department or reporting line
@@ -159,7 +159,7 @@ Check for missing or risky fields such as:
 8. expected onboard date
 9. trial period
 
-Always produce:
+始终产出： / Always produce:
 
 ```text
 offer_approval_summary
@@ -174,16 +174,16 @@ record_summary
 
 ### 4. `generate_candidate_message`
 
-Use when the user already knows the intended next step and needs a candidate-facing message.
+当用户已经知道下一步动作，只需要一段面向候选人的沟通话术时使用。 / Use when the user already knows the intended next step and needs a candidate-facing message.
 
-Default tone:
+默认语气： / Default tone:
 
 1. clear
 2. respectful
 3. concise
 4. realistic about timing
 
-Supported intents:
+支持的意图： / Supported intents:
 
 1. invite to interview
 2. request missing materials
@@ -194,9 +194,9 @@ Supported intents:
 
 ### 5. `update_candidate_tracker`
 
-Use when the user wants a write-back summary for ATS or a spreadsheet.
+当用户需要把结果回写到 ATS 或表格时使用。 / Use when the user wants a write-back summary for ATS or a spreadsheet.
 
-Default tracker row format:
+默认 tracker 行格式： / Default tracker row format:
 
 ```text
 candidate_name
@@ -209,15 +209,15 @@ next_action
 last_update_summary
 ```
 
-If the user provides an existing tracker schema, follow that schema instead.
+如果用户提供已有 tracker schema，则优先遵循用户 schema。 / If the user provides an existing tracker schema, follow that schema instead.
 
-## Working style
+## 工作方式 / Working Style
 
-1. Prefer small executable HR actions over large SOP explanations.
-2. Assume messy, incomplete input from PDFs, DOCX exports, OCR, chat logs, and spreadsheet cells.
-3. Prioritize hiring decisions, risks, and next steps over pretty prose.
-4. Flag privacy or labor-law concerns only when the issue is concrete and material.
-5. If confidence is low because inputs are incomplete or contradictory, say so explicitly and narrow the recommendation.
+1. 优先输出小而可执行的 HR 动作，而不是大段 SOP 说明。 / Prefer small executable HR actions over large SOP explanations.
+2. 默认输入可能来自 PDF、DOCX 导出、OCR、聊天记录和表格单元格，且可能不完整。 / Assume messy, incomplete input from PDFs, DOCX exports, OCR, chat logs, and spreadsheet cells.
+3. 优先给出招聘判断、风险和下一步，不追求空泛文采。 / Prioritize hiring decisions, risks, and next steps over pretty prose.
+4. 仅在问题具体且实质时提示隐私或劳动法风险。 / Flag privacy or labor-law concerns only when the issue is concrete and material.
+5. 如果材料不足或自相矛盾导致把握不高，要明确说出，并收窄建议。 / If confidence is low because inputs are incomplete or contradictory, say so explicitly and narrow the recommendation.
 
 ## Mainland China context
 
