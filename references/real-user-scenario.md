@@ -1,80 +1,118 @@
-# Real User Scenario
+# 招聘推进助手：真实用户场景
 
-## Recommended first production scenario
+## 这个 skill 最适合从哪里开始
 
-Use this skill first for:
+第一次打开时，优先从这两个场景开始：
+
+1. `整理面试反馈`
+2. `JD + 简历初筛`
+
+这两个场景最适合做成 OpenClaw 上的第一体验，因为：
+
+1. 中国招聘 HR 几乎每天都在做
+2. 输入虽然脏，但边界相对清楚
+3. 跑完后能立刻生成“下一步动作”
+4. 结果可以直接发给候选人、老板或回写 ATS
+
+## 推荐第一生产场景
 
 `互联网公司社招场景下，HR 汇总多位面试官反馈并产出推进材料`
 
-This is a realistic recruiting workflow in China because:
+这非常真实，因为：
 
-1. feedback is often fragmented across Feishu, WeCom, forms, and verbal notes
-2. the hiring manager needs a quick go or no-go recommendation
-3. HR still needs documentation that can be forwarded, archived, and pasted back into ATS
+1. 面试反馈常常散落在飞书、企微、邮件、表单和口头备注里
+2. 用人经理通常只想快速知道“推不推进”
+3. HR 还得顺手整理纪要、消息和跟进记录
 
-## Typical trigger
+### 用户第一次可以这样说
 
-An HRBP or recruiter says something like:
+1. `这是产品经理候选人的三轮面试反馈，帮我汇总成一版给老板看的纪要，再给候选人一条推进消息。`
+2. `面试官反馈很散，你帮我判断要不要进终面，并给我一行 tracker 更新。`
+3. `把这些反馈整理成结论，顺手给我生成一个 Word 版纪要。`
 
-1. "这是产品经理候选人的三轮面试反馈，帮我汇总成一版给老板看的纪要，再给候选人一条推进消息。"
-2. "面试官反馈很散，你帮我判断要不要进终面，并给我一行 tracker 更新。"
-3. "把这些反馈整理成结论，顺手给我生成一个 Word 版纪要。"
+### 用户至少要给什么
 
-## Typical inputs
+1. 候选人基础信息
+2. 岗位 JD 或简要岗位说明
+3. 2 到 5 位面试官的反馈
+4. 可选的薪资期望、到岗时间或 notice period
 
-1. Candidate basic profile
-2. Target JD or a short role summary
-3. Interview feedback from 2 to 5 interviewers
-4. Optional salary expectation or notice-period info
+### 用户最希望拿到什么
 
-## Minimum useful outputs
+1. 一句清楚的推进结论
+2. 结论依据和分歧点
+3. 候选人沟通稿
+4. 一行 tracker 更新
+5. 一份内部面试纪要
 
-1. normalized feedback summary
-2. recommendation with confidence level
-3. candidate-facing follow-up draft
-4. tracker update row
-5. internal interview debrief memo
+### 结果页要优先按这个顺序展示
 
-## Recommended second production scenario
+1. `是否推进`
+2. `为什么这么判断`
+3. `分歧点和风险点`
+4. `建议补问什么`
+5. `候选人沟通稿`
 
-Use this skill next for:
+## 推荐第二生产场景
 
 `JD + 简历初筛，输出是否推进、面试重点、候选人消息和跟进记录`
 
-This is another strong recruiting use case because:
+这也非常强，因为：
 
-1. almost every recruiting team does resume screening every day
-2. the input is stable enough to structure
-3. the output can directly move the process forward
+1. 招聘团队每天都要做初筛
+2. 输入形态相对稳定
+3. 输出天然就是下一步动作
 
-Typical trigger:
+### 用户第一次可以这样说
 
-1. "这是岗位 JD 和候选人简历，帮我判断要不要推进。"
-2. "给我一版初筛结论，再补 3 个面试重点。"
-3. "顺手生成候选人沟通话术和一行进展记录。"
+1. `这是岗位 JD 和候选人简历，帮我判断要不要推进。`
+2. `给我一版初筛结论，再补 3 个面试重点。`
+3. `顺手生成候选人沟通话术和一行进展记录。`
 
-Minimum useful outputs:
+### 用户至少要给什么
 
-1. match score and match rationale
-2. risk flags
-3. interview focus
-4. candidate-facing follow-up draft
-5. progress-record update
+1. JD
+2. 简历
+3. 可选的招聘偏好，例如保守、快速招人或高标准
 
-## Internet-company flavor
+### 用户最希望拿到什么
 
-This scenario is especially common in internet hiring because:
+1. 初筛结论
+2. 匹配依据
+3. 风险点
+4. 面试重点
+5. 候选人跟进话术
 
-1. recruiting speed matters, so HR often cannot wait for perfectly formatted feedback
-2. interviewers frequently leave short comments such as "还行", "项目深度一般", "推进但要补看 owner 意识"
-3. HR has to translate vague feedback into a structured decision for the hiring manager
+## 互联网招聘的真实语境
 
-## Decision policy
+这个 skill 要默认理解这些情况：
 
-When summarizing feedback for this scenario:
+1. 招聘节奏很快，HR 没时间等标准格式
+2. 面试官经常只给一句评价，例如“还行”“项目深度一般”“推进但要补看 owner 意识”
+3. HR 的工作不是复述反馈，而是把零散信息翻译成结构化判断
 
-1. distinguish hard blockers from soft concerns
-2. call out disagreement between interviewers explicitly
-3. do not overstate certainty when feedback is thin
-4. keep the candidate message aligned with the actual next action
-5. keep the memo concise enough to circulate internally
+## 结果要怎么写，HR 才会信
+
+处理这类招聘场景时：
+
+1. 先写结论，再写依据，不要倒过来
+2. 要明确区分硬性卡点和软性担忧
+3. 面试官之间的分歧必须单独指出
+4. 候选人沟通稿要和真实下一步一致
+5. 纪要长度要适合内部转发
+
+## 哪些地方不要装得太确定
+
+如果出现这些情况，要主动降置信度：
+
+1. 反馈过少
+2. 反馈互相矛盾
+3. 缺少业务面或核心面试轮次意见
+4. JD 本身不完整
+5. 候选人薪资、动机或到岗时间未确认
+
+此时要明确写出：
+
+1. `当前判断依据不足`
+2. `还需要谁确认`
+3. `建议先补问什么`

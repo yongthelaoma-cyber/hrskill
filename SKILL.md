@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
 description: 帮招聘 HR 整理面试反馈、初筛简历、生成候选人沟通话术和跟进记录，把今天要推进的招聘动作往前推一步。 / Help recruiting teams debrief interviews, screen resumes, draft candidate follow-ups, and update trackers.
-version: 0.4.0
+version: 0.4.1
 metadata:
   openclaw:
     homepage: https://github.com/Ashley-AIHR/hrskill
@@ -81,6 +81,8 @@ metadata:
 3. [assets/resume-screening-input.sample.json](assets/resume-screening-input.sample.json)
 4. [scripts/generate_interview_packet.js](scripts/generate_interview_packet.js)
 5. [scripts/generate_screening_packet.js](scripts/generate_screening_packet.js)
+
+第一次想快速理解这个 skill 怎么用，先看 [references/real-user-scenario.md](references/real-user-scenario.md)。
 
 支持的动作有： / The supported actions are:
 
