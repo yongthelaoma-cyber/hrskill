@@ -35,6 +35,32 @@ An HRBP or recruiter says something like:
 4. tracker update row
 5. internal interview debrief memo
 
+## Recommended second production scenario
+
+Use this skill next for:
+
+`JD + 简历初筛，输出是否推进、面试重点、候选人消息和跟进记录`
+
+This is another strong recruiting use case because:
+
+1. almost every recruiting team does resume screening every day
+2. the input is stable enough to structure
+3. the output can directly move the process forward
+
+Typical trigger:
+
+1. "这是岗位 JD 和候选人简历，帮我判断要不要推进。"
+2. "给我一版初筛结论，再补 3 个面试重点。"
+3. "顺手生成候选人沟通话术和一行进展记录。"
+
+Minimum useful outputs:
+
+1. match score and match rationale
+2. risk flags
+3. interview focus
+4. candidate-facing follow-up draft
+5. progress-record update
+
 ## Internet-company flavor
 
 This scenario is especially common in internet hiring because:

@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
 description: 帮招聘 HR 快速汇总面试反馈、生成候选人推进话术、整理 Offer 材料并回写跟进记录。 / Help recruiting teams debrief interviews, draft candidate follow-ups, prepare offer materials, and update trackers.
-version: 0.2.4
+version: 0.3.0
 metadata:
   openclaw:
     homepage: https://github.com/Ashley-AIHR/hrskill
@@ -15,9 +15,10 @@ metadata:
 
 当用户在处理招聘推进、面试反馈汇总、候选人沟通或 Offer 前置材料时使用这个 skill。它更像一个会帮 HR 往前推流程的小助手，而不是一个只会解释概念的 HR 机器人。 / Use this skill when the user needs help moving recruiting work forward: interview debriefs, candidate follow-ups, and offer prep.
 
-这个 skill 设计了 5 个招聘动作，但当前最完整、最适合真实上线使用的场景是： / This skill is optimized for 5 recruiting actions, but the current production-ready scenario is:
+这个 skill 设计了 5 个招聘动作，目前已经有 2 个能真正落地交付文件的场景： / This skill is optimized for 5 recruiting actions, and currently has 2 production-ready scenarios:
 
-`互联网招聘里的面试反馈汇总与推进`
+1. `互联网招聘里的面试反馈汇总与推进`
+2. `JD + 简历初筛与推进建议`
 
 这个场景覆盖了互联网招聘里最常见的一类 HR 痛点： / That scenario covers a very common recruiting pain point:
 
@@ -27,11 +28,13 @@ metadata:
 4. HR needs a tracker update that can be pasted into ATS or a spreadsheet
 5. HR often still needs a downloadable debrief memo for internal circulation
 
-这个场景已经附带了可直接使用的文件： / This skill includes bundled files for that scenario:
+当前附带了可直接使用的文件： / This skill includes bundled files for these scenarios:
 
 1. [references/real-user-scenario.md](references/real-user-scenario.md)
 2. [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json)
-3. [scripts/generate_interview_packet.js](scripts/generate_interview_packet.js)
+3. [assets/resume-screening-input.sample.json](assets/resume-screening-input.sample.json)
+4. [scripts/generate_interview_packet.js](scripts/generate_interview_packet.js)
+5. [scripts/generate_screening_packet.js](scripts/generate_screening_packet.js)
 
 支持的动作有： / The supported actions are:
 
@@ -142,6 +145,22 @@ node scripts/generate_interview_packet.js <input.json> <output-dir>
 ```
 
 示例输入见 [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json)。 / See the sample payload in [assets/interview-packet-input.sample.json](assets/interview-packet-input.sample.json).
+
+### `score_candidate` 也已支持文件产出
+
+如果用户希望把初筛结论直接落成文件，可以生成：
+
+1. 初筛评估 Word
+2. 候选人初筛沟通稿
+3. 进展记录 CSV
+
+本地运行命令：
+
+```text
+node scripts/generate_screening_packet.js <input.json> <output-dir>
+```
+
+示例输入见 [assets/resume-screening-input.sample.json](assets/resume-screening-input.sample.json)。
 
 ### 3. `create_offer_approval_pack`
 
