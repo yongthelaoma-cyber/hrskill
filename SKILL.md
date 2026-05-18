@@ -25,6 +25,7 @@ metadata:
 
 如果用户第一次使用或输入很乱，先读 [references/real-user-scenario.md](references/real-user-scenario.md)。
 如果需要字段归一化，读 [references/recruiting-fields.md](references/recruiting-fields.md)。
+如果需要检验工作流是否符合中国互联网招聘常见链路，读 [references/china-recruiting-workflow-benchmark-2026.md](references/china-recruiting-workflow-benchmark-2026.md)。
 
 ## 路由规则
 
