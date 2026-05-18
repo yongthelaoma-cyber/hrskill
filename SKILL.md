@@ -1,7 +1,7 @@
 ---
 name: cn-recruiting-workflow
-description: 帮招聘 HR 快速汇总面试反馈、生成候选人推进话术、整理 Offer 材料并回写跟进记录。 / Help recruiting teams debrief interviews, draft candidate follow-ups, prepare offer materials, and update trackers.
-version: 0.3.0
+description: 帮招聘 HR 整理面试反馈、初筛简历、生成候选人沟通话术和跟进记录，把今天要推进的招聘动作往前推一步。 / Help recruiting teams debrief interviews, screen resumes, draft candidate follow-ups, and update trackers.
+version: 0.4.0
 metadata:
   openclaw:
     homepage: https://github.com/Ashley-AIHR/hrskill
@@ -13,9 +13,55 @@ metadata:
 
 # 招聘推进助手 / Recruiting Follow-up Copilot
 
-当用户在处理招聘推进、面试反馈汇总、候选人沟通或 Offer 前置材料时使用这个 skill。它更像一个会帮 HR 往前推流程的小助手，而不是一个只会解释概念的 HR 机器人。 / Use this skill when the user needs help moving recruiting work forward: interview debriefs, candidate follow-ups, and offer prep.
+当用户在处理招聘推进、面试反馈汇总、候选人沟通或 Offer 前置材料时使用这个 skill。它不是一个解释招聘概念的机器人，而是一个帮 HR 把下一步动作理出来、写出来、落到记录里的小助手。 / Use this skill when the user needs help moving recruiting work forward: interview debriefs, candidate follow-ups, and offer prep.
 
-这个 skill 设计了 5 个招聘动作，目前已经有 2 个能真正落地交付文件的场景： / This skill is optimized for 5 recruiting actions, and currently has 2 production-ready scenarios:
+如果用户不知道怎么开始，优先引导她先选一个场景，而不是让她从零写 prompt。 / If the user is unsure how to start, route them into a concrete scenario instead of asking for a free-form prompt.
+
+## 你可以先做这 3 件事 / Start Here
+
+第一次使用时，优先把用户带到下面 3 个入口之一：
+
+1. `整理面试反馈`
+2. `初筛简历`
+3. `生成候选人沟通稿`
+
+默认向导语：
+
+1. `把面试反馈、候选人简历和岗位 JD 发给我，我先帮你整理结论、分歧点、推进建议和候选人沟通稿。`
+2. `把岗位 JD 和候选人简历发给我，我先帮你做初筛判断、列出风险点和建议追问。`
+3. `告诉我你想推进、保留还是婉拒候选人，我直接帮你写沟通话术。`
+
+## 你要准备什么 / What To Prepare
+
+不要求完美 JSON。默认接受脏输入、零散输入和复制粘贴的文本。 / Do not require perfect JSON. Accept messy pasted inputs by default.
+
+最常见输入包括：
+
+1. 面试官在飞书、企微、邮件里的零散反馈
+2. 候选人简历文本、PDF 导出、Word 导出
+3. 岗位 JD 文本
+4. 用人经理的一句话判断
+5. 现有 ATS 或表格中的跟进备注
+
+如果用户材料不完整，也先继续做，但要明确标出缺口。 / Continue even with incomplete inputs, but surface missing information explicitly.
+
+## 你会拿到什么 / What The User Gets
+
+每次运行后，优先让用户看到这 5 块结果：
+
+1. `推进结论`
+2. `关键风险`
+3. `下一步动作`
+4. `可直接复制的沟通话术`
+5. `可回写的跟进记录`
+
+如果用户需要文件，还要补：
+
+1. Word 纪要
+2. CSV 跟进记录
+3. JSON 结构化输出
+
+## 当前可落地场景 / Current Production-Ready Scenarios
 
 1. `互联网招聘里的面试反馈汇总与推进`
 2. `JD + 简历初筛与推进建议`
@@ -44,6 +90,18 @@ metadata:
 4. `generate_candidate_message`
 5. `update_candidate_tracker`
 
+## 运行时体验 / Runtime Experience
+
+在交互中，不要只给最终答案。先让用户看见处理中步骤，再给结果。 / Do not only return the final answer. Show the user the work stages first.
+
+推荐按这个顺序组织过程：
+
+1. `正在读取材料`
+2. `正在抽取关键字段`
+3. `正在识别风险和分歧`
+4. `正在生成推进结论与下一步`
+5. `正在整理可复制文案和可回写记录`
+
 ## 输出标准 / Outcome Standard
 
 处理任意招聘工作流时，始终产出以下结构： / When handling any recruiting workflow, always produce these sections:
@@ -51,10 +109,13 @@ metadata:
 ```text
 normalized_data
 decision_summary
+decision_basis
 missing_information
+risk_summary
 next_action
 message_draft
 record_update
+human_confirmation_needed
 compliance_warning_if_any
 ```
 
@@ -62,11 +123,14 @@ compliance_warning_if_any
 
 1. `normalized_data` must be structured and easy to map into ATS, Feishu Bitable, DingTalk approval forms, Notion, Google Sheets, or CSV.
 2. `decision_summary` must make a decision or recommendation, not just restate the inputs.
-3. `missing_information` must name the exact fields that block a confident HR action.
-4. `next_action` must be something an HR operator can actually do today.
-5. `message_draft` should be directly reusable in WeCom, Feishu, email, or a candidate chat.
-6. `record_update` should be concise enough to write back into one row or one timeline entry.
-7. `compliance_warning_if_any` should only appear when there is a concrete legal or privacy concern.
+3. `decision_basis` must explain why the recommendation was made, not just what the recommendation is.
+4. `missing_information` must name the exact fields that block a confident HR action.
+5. `risk_summary` must highlight the top reasons this candidate should be advanced, held, or reviewed again.
+6. `next_action` must be something an HR operator can actually do today.
+7. `message_draft` should be directly reusable in WeCom, Feishu, email, or a candidate chat.
+8. `record_update` should be concise enough to write back into one row or one timeline entry.
+9. `human_confirmation_needed` should state what still needs an HR or hiring manager to confirm before action.
+10. `compliance_warning_if_any` should only appear when there is a concrete legal or privacy concern.
 
 ## 工作流路由 / Workflow Routing
 
@@ -94,6 +158,14 @@ next_action
 message_to_candidate
 record_summary
 ```
+
+结果优先按下面 5 块展示：
+
+1. `初筛结论`
+2. `匹配依据`
+3. `风险点`
+4. `建议追问`
+5. `候选人跟进话术`
 
 ### 2. `summarize_interview_feedback`
 
@@ -131,6 +203,14 @@ follow_up_questions
 candidate_reply_draft
 record_summary
 ```
+
+结果页优先展示：
+
+1. `是否推进`
+2. `依据`
+3. `分歧点`
+4. `补充追问`
+5. `候选人沟通稿`
 
 如果用户需要可下载文件，还要生成： / If the user wants downloadable artifacts, also generate:
 
@@ -211,6 +291,13 @@ record_summary
 5. reject politely
 6. start offer discussion
 
+优先风格：
+
+1. 像中国招聘 HR 会真的发出去的话
+2. 不要 AI 腔
+3. 不要过度热情
+4. 时间承诺要保守
+
 ### 5. `update_candidate_tracker`
 
 当用户需要把结果回写到 ATS 或表格时使用。 / Use when the user wants a write-back summary for ATS or a spreadsheet.
@@ -234,9 +321,11 @@ last_update_summary
 
 1. 优先输出小而可执行的 HR 动作，而不是大段 SOP 说明。 / Prefer small executable HR actions over large SOP explanations.
 2. 默认输入可能来自 PDF、DOCX 导出、OCR、聊天记录和表格单元格，且可能不完整。 / Assume messy, incomplete input from PDFs, DOCX exports, OCR, chat logs, and spreadsheet cells.
-3. 优先给出招聘判断、风险和下一步，不追求空泛文采。 / Prioritize hiring decisions, risks, and next steps over pretty prose.
-4. 仅在问题具体且实质时提示隐私或劳动法风险。 / Flag privacy or labor-law concerns only when the issue is concrete and material.
-5. 如果材料不足或自相矛盾导致把握不高，要明确说出，并收窄建议。 / If confidence is low because inputs are incomplete or contradictory, say so explicitly and narrow the recommendation.
+3. 先给结论，再给依据，再给下一步。 / Lead with the recommendation, then the basis, then the next step.
+4. 优先给出招聘判断、风险和下一步，不追求空泛文采。 / Prioritize hiring decisions, risks, and next steps over pretty prose.
+5. 仅在问题具体且实质时提示隐私或劳动法风险。 / Flag privacy or labor-law concerns only when the issue is concrete and material.
+6. 如果材料不足或自相矛盾导致把握不高，要明确说出，并收窄建议。 / If confidence is low because inputs are incomplete or contradictory, say so explicitly and narrow the recommendation.
+7. 不要假设用户会写 prompt，要主动给出下一步引导。 / Do not assume the user knows how to prompt; actively guide them to the next usable step.
 
 ## Mainland China context
 
